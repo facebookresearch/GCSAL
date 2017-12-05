@@ -18,6 +18,8 @@ classdef GCSAL < handle
         countries  % struct array, each element countaining infomration for a country including its name, lat/long of its borders, and which staitons are contained by that country
         entries % struct of entries data that has been cached
         do_cache_entries  % boolean whether to cache entries are not. Normally true but if you are running out of RAM you can turn this off
+        quiet_mode  % Suppress status text messages and waitbars
+        plot_mode  % Suppress plots
     end
 
     methods
@@ -29,6 +31,12 @@ classdef GCSAL < handle
             %   file would have been created by an earlier call to this
             %   constructor function
 
+            % Default to output all comments
+            obj.quiet_mode = false;
+            
+            % Default to make all plots
+            obj.plot_mode = true;
+            
             % Set do_cache_entries true
             obj.do_cache_entries = true;
 
@@ -146,7 +154,7 @@ classdef GCSAL < handle
             %
             %    % Now additionally filter on measurements taken in August
             %    % between 4 and 10 am
-            %    N, entries] = g.counts(stations, 'wspd', 'FilterFields', {'gph', 'month', 'hour'}, ...
+            %    [N, entries] = g.counts(stations, 'wspd', 'FilterFields', {'gph', 'month', 'hour'}, ...
             %     'FilterRanges', {[0 8], 8, [4 10]}, 'Edges', bin_edges);
 
             % Return on empty stations
@@ -161,18 +169,25 @@ classdef GCSAL < handle
             addOptional(p, 'Edges', GCSAL.GCSAL.default_bin_edges(fld));
             addOptional(p, 'FilterFields', {});
             addOptional(p, 'FilterRanges', {});
+            addOptional(p, 'Plot', []);
+            addOptional(p, 'Verbose', []);
             parse(p, varargin{:});
 
             % Rename for convenience
             edges = p.Results.Edges;
             fltr_flds = p.Results.FilterFields;
             fltr_ranges = p.Results.FilterRanges;
+            obj.plot_mode = (~ismember('Plot', p.UsingDefaults) && ...
+                             (p.Results.Plot == true)) || ...
+                             ismember('Plot', p.UsingDefaults);
+            obj.quiet_mode = (~ismember('Verbose', p.UsingDefaults) && ...
+                             (p.Results.Verbose == false));
 
             % Load data from stations and all fields
             entries = obj.query(stations, fld, fltr_flds, fltr_ranges);
 
             % Get counts
-            [N] = GCSAL.GCSAL.histcounts(entries, fld, edges);
+            [N] = GCSAL.GCSAL.histcounts(entries, fld, edges, obj.quiet_mode);
             [pdf, cdf] = GCSAL.GCSAL.counts2pdf(N, 2);
 
             % calculate bin centers from edges
@@ -188,35 +203,39 @@ classdef GCSAL < handle
             % title
             title_str = GCSAL.GCSAL.description_from_filters(fltr_flds, fltr_ranges);
 
-            % Make figure
-            figure;
+            if (obj.plot_mode)
+                % Make figure
+                figure;
 
-            % Plot histogram
-            subplot(3,1,1)
-            histogram(vertcat(entries.(fld)), edges)
-            title(sprintf('Histogram\n%s', title_str))
-            xlabel(label)
-            ylabel('# of occurences')
-
-            % Plot probability density function
-            subplot(3,1,2)
-            plot(centers, pdf, '-x')
-            title(sprintf('Probability Density Function\n%s', title_str))
-
-            xlabel(label)
-            ylabel('Probability of occuring')
-
-            % Plot cumulative density funciton
-            subplot(3,1,3)
-            plot(centers, cdf, '-x')
-            title(sprintf('Cumulative Density Function\n%s', title_str))
-
-            xlabel(label)
-            ylabel('Probability of exceeding')
-
+                % Plot histogram
+                subplot(3,1,1)
+                histogram(vertcat(entries.(fld)), edges)
+                title(sprintf('Histogram\n%s', title_str))
+                xlabel(label)
+                ylabel('# of occurences')
+                
+                % Plot probability density function
+                subplot(3,1,2)
+                plot(centers, pdf, '-x')
+                title(sprintf('Probability Density Function\n%s', title_str))
+                
+                xlabel(label)
+                ylabel('Probability of occuring')
+                
+                % Plot cumulative density funciton
+                subplot(3,1,3)
+                plot(centers, cdf, '-x')
+                title(sprintf('Cumulative Density Function\n%s', title_str))
+                
+                xlabel(label)
+                ylabel('Probability of exceeding')
+            end
+            
+            obj.plot_mode = true;
+            obj.quiet_mode = false;
         end
 
-        function [N, entries] = counts2(obj, stations, x_fld, y_fld, varargin)
+        function [N, entries, stats] = counts2(obj, stations, x_fld, y_fld, varargin)
             % [N, entries] = counts2(obj, stations, x_fld, y_fld, varargin)
             %    Returns two dimensional counts from  histcounts2 and makes
             %    plots showing two dimensional probability and cumulative
@@ -265,6 +284,8 @@ classdef GCSAL < handle
             addOptional(p, 'YEdges', GCSAL.GCSAL.default_bin_edges(y_fld));
             addOptional(p, 'FilterFields', {});
             addOptional(p, 'FilterRanges', {});
+            addOptional(p, 'Plot', []);
+            addOptional(p, 'Verbose', []);
             parse(p, varargin{:});
 
             % Rename for convenience
@@ -272,13 +293,21 @@ classdef GCSAL < handle
             y_edges = p.Results.YEdges;
             fltr_flds = p.Results.FilterFields;
             fltr_ranges = p.Results.FilterRanges;
+            obj.plot_mode = (~ismember('Plot', p.UsingDefaults) && ...
+                             (p.Results.Plot == true)) || ...
+                             ismember('Plot', p.UsingDefaults);
+            obj.quiet_mode = (~ismember('Verbose', p.UsingDefaults) && ...
+                             (p.Results.Verbose == false));
 
             % Load data from stations and all fields
             entries = obj.query(stations, {x_fld, y_fld}, fltr_flds, fltr_ranges);
 
             % Get counts
-            [N] = GCSAL.GCSAL.histcounts2(entries, x_fld, y_fld, x_edges, y_edges);
+            [N] = GCSAL.GCSAL.histcounts2(entries, x_fld, y_fld, ...
+                x_edges, y_edges, obj.quiet_mode);
             [pdf, cdf] = GCSAL.GCSAL.counts2pdf(N, 2);
+            pdf = pdf';
+            cdf = cdf';
 
             % calculate bin centers from edges
             x_centers = GCSAL.GCSAL.get_bin_centers(x_edges);
@@ -292,35 +321,44 @@ classdef GCSAL < handle
             x_label = GCSAL.GCSAL.get_label(x_def);
             y_label = GCSAL.GCSAL.get_label(y_def);
 
-            % Make figure
-            figure;
-
-            % subplot for contour of cumulative density function
-            subplot(3,1,1)
-            [C, h] = contourf(x_centers, y_centers, cdf', ...
-                [0.05:0.05:0.95 0.99]);
-            clabel(C,h, 0.1:0.2:0.9, 'LabelSpacing', 600, 'FontSize', 18);
-            xlabel(x_label)
-            ylabel(y_label)
-            title('Percentile by Alitude')
-
-            % subplot for surf of probability density function
-            subplot(3,1,2)
-            surf(x_centers, y_centers, pdf', 'LineStyle', 'None');
-            view([0 0 1])
-            xlabel(x_label)
-            ylabel(y_label)
-            title('Probability Density Function by Altitude')
-            h_colorbar = colorbar;
-            ylabel(h_colorbar, 'probability')
-
-            % subplot for # of samples
-            subplot(3,1,3)
-            plot(x_centers, sum(N,2)/1000, '-x');
-            xlabel(x_label)
-            ylabel('Thousands of Counts')
-            title('Sample size')
-
+            stats.x = x_centers;
+            stats.y = y_centers;
+            stats.cdf = cdf;
+            stats.pdf = pdf;
+            
+            if (obj.plot_mode)
+                % Make figure
+                figure;
+                
+                % subplot for contour of cumulative density function
+                subplot(3,1,1)
+                [C, h] = contourf(x_centers, y_centers, cdf, ...
+                    [0.05:0.05:0.95 0.99]);
+                clabel(C,h, 0.1:0.2:0.9, 'LabelSpacing', 600, 'FontSize', 18);
+                xlabel(x_label)
+                ylabel(y_label)
+                title('Percentile by Altitude')
+                
+                % subplot for surf of probability density function
+                subplot(3,1,2)
+                surf(x_centers, y_centers, pdf, 'LineStyle', 'None');
+                view([0 0 1])
+                xlabel(x_label)
+                ylabel(y_label)
+                title('Probability Density Function by Altitude')
+                h_colorbar = colorbar;
+                ylabel(h_colorbar, 'probability')
+                
+                % subplot for # of samples
+                subplot(3,1,3)
+                plot(x_centers, sum(N,2)/1000, '-x');
+                xlabel(x_label)
+                ylabel('Thousands of Counts')
+                title('Sample size')
+            end
+            
+            obj.plot_mode = true;
+            obj.quiet_mode = false;
         end
 
         function [N, entries] = countsN(obj, stations, resolutions, varargin)
@@ -365,11 +403,18 @@ classdef GCSAL < handle
             p = inputParser;
             addOptional(p, 'FilterFields', {});
             addOptional(p, 'FilterRanges', {});
+            addOptional(p, 'Plot', []);
+            addOptional(p, 'Verbose', []);
             parse(p, varargin{:});
 
             % Rename for convenience
             fltr_flds = p.Results.FilterFields;
             fltr_ranges = p.Results.FilterRanges;
+            obj.plot_mode = (~ismember('Plot', p.UsingDefaults) && ...
+                             (p.Results.Plot == true)) || ...
+                             ismember('Plot', p.UsingDefaults);
+            obj.quiet_mode = (~ismember('Verbose', p.UsingDefaults) && ...
+                             (p.Results.Verbose == false));
 
             % fill in edges
             for i = 1:length(resolutions)
@@ -385,9 +430,10 @@ classdef GCSAL < handle
             entries = obj.query(stations, flds, fltr_flds, fltr_ranges);
 
             % Get counts
-            [N] = GCSAL.GCSAL.histcountsN(entries, resolutions);
+            [N] = GCSAL.GCSAL.histcountsN(entries, resolutions, obj.quiet_mode);
 
-
+            obj.plot_mode = true;
+            obj.quiet_mode = false;
         end
 
         function entries = query(obj, stations, params, fltr_flds, fltr_rngs)
@@ -508,11 +554,16 @@ classdef GCSAL < handle
             entries = obj.add_header_params_to_entries(entries, curr_header_params);
 
             % Filter data according to range limits
-            tic; fprintf('Applying filters... ');
+            if (~obj.quiet_mode)
+                tic;
+                fprintf('Applying filters... ');
+            end
             for i = 1:length(fltr_rngs)
                 entries = GCSAL.GCSAL.filter_data_by_range(entries, fltr_flds{i}, fltr_rngs{i});
             end
-            fprintf('Complete in %.1f seconds\n', toc);
+            if (~obj.quiet_mode)
+                fprintf('Complete in %.1f seconds\n', toc);
+            end
 
             % Clear entries if nargout is 0 so we don't use any RAM in the
             % base workspace for "ans"
@@ -554,28 +605,83 @@ classdef GCSAL < handle
 
             % Parse varargin
             p = inputParser;
-            addOptional(p, 'LatLong', []);
             addOptional(p, 'Countries', []);
             addOptional(p, 'IDRegex', []);
+            addOptional(p, 'Lat', []);
+            addOptional(p, 'LatLong', []);
+            addOptional(p, 'Nearest', []);
+            addOptional(p, 'Number', []);
+            addOptional(p, 'Range', []);
+            addOptional(p, 'Plot', []);
+            addOptional(p, 'Verbose', []);
             parse(p, varargin{:});
 
+            obj.plot_mode = (~ismember('Plot', p.UsingDefaults) && ...
+                             (p.Results.Plot == true)) || ...
+                             ismember('Plot', p.UsingDefaults);
+            obj.quiet_mode = (~ismember('Verbose', p.UsingDefaults) && ...
+                             (p.Results.Verbose == false));
+                         
             % Plot the map of world with all stations marked
             figure; hold all;
             obj.plot_world_map();
 
             % Initialize station_ids_match to all station ids
             ids_match = GCSAL.GCSAL.station_id_str(obj.stations);
+            Lmax = length(ids_match);
 
+            % If Nearest specified:
+            if ~ismember('Nearest', p.UsingDefaults)
+                
+                % Find stations in lat/long range
+                num = uint16(p.Results.Number);
+                if (isempty(num) || (num < 1))
+                    num = 1;
+                elseif (num > Lmax)
+                    num = Lmax;
+                end
+                [stations_nearest, arclen] = ... 
+                    obj.stations_near_latlong(p.Results.Nearest, num);
+                
+                % Report # stations found
+                L = length(stations_nearest);
+                if (~obj.quiet_mode)
+                    fprintf('%d stations found near lat/long\n', L)
+                end
+                
+                % Find intersect of stations found so far and currently
+                % found stations
+                curr_ids = GCSAL.GCSAL.station_id_str(stations_nearest);
+                ids_match = intersect(ids_match, curr_ids, 'rows');
+            end
+            
             % If LatLong specified:
-            if ~ismember('LatLong', p.UsingDefaults)
+            if (~ismember('LatLong', p.UsingDefaults) || ...
+                    ~ismember('Lat', p.UsingDefaults))
 
+                if ~ismember('Lat', p.UsingDefaults)
+                    % Find stations in lat/long range
+                    range = single(p.Results.Range);
+                    if (isempty(range) || (range < 1.2))
+                        range = 1.2;
+                    end
+                    % Find stations in lat/long range
+                    lat = p.Results.Lat(1);
+                    lon = p.Results.Lat(2);
+                    box = [(lat - range) (lat + range) lon lon];
+                else
+                    box = p.Results.LatLong;
+                end
+                
                 % Find stations in lat/long range
                 [stations_in_range, latbox, longbox] = ...
-                    obj.stations_from_latlong(p.Results.LatLong);
+                    obj.stations_from_latlong(box);
 
                 % Report # stations found
                 L = length(stations_in_range);
-                fprintf('%d stations found in lat/long range\n', L)
+                if (~obj.quiet_mode)
+                    fprintf('%d stations found in lat/long range\n', L)
+                end
 
                 % Find intersect of stations found so far and currently
                 % found stations
@@ -595,7 +701,9 @@ classdef GCSAL < handle
 
                 % Report # stations found
                 L = length(stations_in_countries);
-                fprintf('%d stations found in countries\n', L)
+                if (~obj.quiet_mode)
+                    fprintf('%d stations found in countries\n', L)
+                end
 
                 % Find intersect of stations found so far and currently
                 % found stations
@@ -617,7 +725,9 @@ classdef GCSAL < handle
 
                 % Report # stations found
                 L = length(stations_from_regex);
-                fprintf('%d stations found matching search_str\n', L)
+                if (~obj.quiet_mode)
+                    fprintf('%d stations found matching search_str\n', L)
+                end
 
                 % Find intersect of stations found so far and currently
                 % found stations
@@ -632,13 +742,23 @@ classdef GCSAL < handle
 
             % Convert station ids to stations struct array
             stations_match = obj.find_stations(ids_match);
-
+            
             % Report # stations found
-            fprintf('%d stations found combined\n', length(stations_match))
+            if (~obj.quiet_mode)
+                fprintf('%d stations found combined\n', length(stations_match))
+            end
 
             % Highlight stations found
             GCSAL.GCSAL.plot_stations(stations_match, 'r+');
 
+            if ~ismember('Nearest', p.UsingDefaults)
+                for i = 1:num
+                    stations_match(i).arclen = arclen(i);
+                end
+            end
+            
+            obj.plot_mode = true;
+            obj.quiet_mode = false;
         end
 
         function plot_world_map(obj, include_stations)
@@ -797,11 +917,15 @@ classdef GCSAL < handle
 
             % Determine whether to do waitbar
             L = length(entries);
-            do_waitbar = L > 1;
+            do_waitbar = (L > 1) && ~obj.quiet_mode;
             if do_waitbar
                 h = waitbar(0, 'Adding header fields to entries');
             end
-            tic; fprintf('Adding header fields to entries... ');
+            
+            if (~obj.quiet_mode)
+                tic;
+                fprintf('Adding header fields to entries... ');
+            end
 
             % Loop through stations
             for i = 1:L
@@ -857,7 +981,10 @@ classdef GCSAL < handle
                     waitbar(i/L, h, msg);
                 end
             end
-            fprintf('Complete in %.1f seconds\n', toc);
+            
+            if (~obj.quiet_mode)
+                fprintf('Complete in %.1f seconds\n', toc);
+            end
 
             % Close waitbar
             if do_waitbar
@@ -866,6 +993,37 @@ classdef GCSAL < handle
 
         end
 
+        function [stations_nearest, arclen] = ...
+                stations_near_latlong(obj, latlonposn, n)
+            % [stations_nearest, arclen] = ...
+            %      stations_near_latlong(obj, latlongrange)
+            %   Returns an array of n-station structs for stations that
+            %   are nearest the queried position.
+            %   Additionally returns an array of arclength distances in meters
+            %
+            %   latlonposn must be a 2 element vector and is
+            %   in degrees. Example:
+            %          latlonposn = [9.999924 -84.205753]
+            %
+            
+            % Return on empty input
+            if isempty(latlonposn)
+                stations_nearest = struct();
+                return
+            end
+            
+            % error check lat/long range
+            if length(latlonposn) ~= 2
+                error('Lat Lon Position must be a 2 element vector')
+            end
+            
+            % Find stations in range as well as getting lat/long vectors
+            % for plotting the search box
+            [stations_nearest, arclen] = GCSAL.Map.find_nearest(...
+                obj.stations, latlonposn(1), latlonposn(2), n);
+            
+        end
+        
         function [stations_in_range, latbox, longbox] = ...
                 stations_from_latlong(obj, latlongrange)
             % [stations_in_range, latbox, longbox] = ...
@@ -995,13 +1153,17 @@ classdef GCSAL < handle
 
             % Decide whether to do wait bar
             L = length(station_ids);
-            do_waitbar = L > 1;
+            do_waitbar = (L > 1) && ~obj.quiet_mode;
 
             % Open waitbar
             if do_waitbar
                 h = waitbar(0, 'Loading data from stations');
             end
-            tic; fprintf('Loading data from stations... ');
+            
+            if (~obj.quiet_mode)
+                tic;
+                fprintf('Loading data from stations... ');
+            end
 
             % Loop through all station ids
             for i = 1:L
@@ -1024,7 +1186,9 @@ classdef GCSAL < handle
                     waitbar(i/L, h, msg);
                 end
             end
-            fprintf('Complete in %.1f seconds\n', toc);
+            if (~obj.quiet_mode)
+                fprintf('Complete in %.1f seconds\n', toc);
+            end
 
             % Close wait bar
             if do_waitbar
@@ -1183,7 +1347,7 @@ classdef GCSAL < handle
 
             % Decide whether to do wait bar
             L = length(i_headers);
-            do_waitbar = L > 1;
+            do_waitbar = (L > 1) && ~obj.quiet_mode;
 
             % Open waitbar
             if do_waitbar
@@ -1270,14 +1434,17 @@ classdef GCSAL < handle
 
         end
 
-        function [counts] = histcounts(entries, fld, edges)
+        function [counts] = histcounts(entries, fld, edges, quiet_mode)
             % counts = histcounts(entries, edges, x_fld)
             %  Pulls the data located in fld for every element
             %  in entries and returns the counts in each bin constructed by
             %  bin edges
 
-
-            tic; fprintf('Counting %s...', fld );
+            if (quiet_mode)
+                tic;
+                fprintf('Counting %s...', fld );
+            end
+            
             % Force first and last bins to include -/+ inf
             edges(1) = -inf;
             edges(end) = inf;
@@ -1298,7 +1465,10 @@ classdef GCSAL < handle
                 counts = counts + histcounts(x, edges);
 
             end
-            fprintf('Complete in %.1f seconds\n', toc);
+            
+            if (quiet_mode)
+                fprintf('Complete in %.1f seconds\n', toc);
+            end
 
             % The following is a simpler and more vectorized way to do the
             % same as above but surpisingly, testing proved that the above
@@ -1307,13 +1477,16 @@ classdef GCSAL < handle
 
         end
 
-        function [counts] = histcounts2(entries, x_fld, y_fld, x_edges, y_edges)
+        function [counts] = histcounts2(entries, x_fld, y_fld, x_edges, y_edges, quiet_mode)
             % counts = histcounts(entries, x_edges, y_edges, x_fld, y_fld)
             %  Pulls the data located in x_fld and y_fld for every element
             %  in entries and returns the counts in each bin constructed by
             %  bin edges defined in x_edges and y_edges
 
-            tic; fprintf('Counting %s vs %$s...', x_fld, y_fld );
+            if (~quiet_mode)
+                tic;
+                fprintf('Counting %s vs %$s...', x_fld, y_fld );
+            end
 
             % Force first and last bins to include -/+ inf
             x_edges(1) = -inf;
@@ -1339,7 +1512,9 @@ classdef GCSAL < handle
                 counts = counts + histcounts2(x, y, x_edges, y_edges);
             end
 
-            fprintf('Complete in %.1f seconds\n', toc);
+            if (~quiet_mode)
+                fprintf('Complete in %.1f seconds\n', toc);
+            end
 
             % The following is a simpler and more vectorized way to do the
             % same as above but surpisingly, testing proved that the above
@@ -1350,16 +1525,18 @@ classdef GCSAL < handle
 
         end
 
-        function [counts] = histcountsN(entries, resolutions)
+        function [counts] = histcountsN(entries, resolutions, quiet_mode)
             % counts = histcounts(entries, edges, x_fld)
             %  Pulls the data located in fld for every element
             %  in entries and returns the counts in each bin constructed by
             %  bin edges
 
-
-            tic; msg = sprintf('  %s\n', resolutions.fld);
-            fprintf('Counting... \n%s', msg)
-
+            if (quiet_mode)
+                tic;
+                msg = sprintf('  %s\n', resolutions.fld);
+                fprintf('Counting... \n%s', msg)
+            end
+            
             % Pre-allocate counts matrix with all zeros. There are one
             % fewer bins than edges on each side of bin grid
             N = cell(size(resolutions));
@@ -1371,7 +1548,7 @@ classdef GCSAL < handle
 
             % Determine whether to do waitbar
             L = length(entries);
-            do_waitbar = L > 1;
+            do_waitbar = (L > 1) && ~quiet_mode;
             if do_waitbar
                 h = waitbar(0, 'Doing counts');
             end
@@ -1423,7 +1600,9 @@ classdef GCSAL < handle
 
             end
 
-            fprintf('complete in %.1f seconds\n', toc)
+            if (quiet_mode)
+                fprintf('complete in %.1f seconds\n', toc)
+            end
 
             % Close wait bar
             if do_waitbar

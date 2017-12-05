@@ -6,18 +6,18 @@ text data from the NOAA website
 - quickly access the data, aggregate statistics, and generate plots
 
 ## Examples
-Two example files are provided in the root directory.  
-* **GCSAL_examples.m** goes through the most commonly used function of the
-Global Climate Statistical Analysis Library class. The examples include analysis
-of the probability distributions of different atmospheric data based on location
-and time of day or time of year.
+The following example files are provided in the root directory.  
+* **GCSAL_ex1.m, GCSAL_ex2.m, etc. ** go through the most commonly used functions
+of the Global Climate Statistical Analysis Library class. These examples include
+analysis of the probability distributions of different atmospheric data based on
+location and time of day or time of year.
 * **IGRA_to_h5_example.m** takes the GCSAL process from downloading the source
 data from NOAA website through to creating a GCSAL Matlab object.  These steps
 are only necessary if you want to download and re-build the GCSAL library from
-the original source data. Typically this is not necessary as you can use the provided
-.h5 file on the website. Reasons you might want to do this are 1) want to update
-the data with the latest measurements or 2) want to make a change to the way the
-data is stored in the .h5 file.
+the original source data. Typically this is not necessary as you can use the
+provided .h5 file on the website. Reasons you might want to do this are 1) want
+to update the data with the latest measurements or 2) want to make a change to the
+way the data is stored in the .h5 file.
 
 ## Requirements
 GCSAL requires MATLAB 2017 and runs on Mac, Linux, or Windows OS
@@ -133,6 +133,7 @@ depression, and relative humidity.
       - station_id_str
   - Map
     - find_in_lat_long_range
+    - find_nearest
     - map_stations_by_country
     - multipatch
     - world_map

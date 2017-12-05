@@ -13,41 +13,45 @@
 
 %% Step 1 is to download the source .h5 file and set up your paths correctly
 
-clear; close all; clc;
+clear;
+close all;
+clc;
 
-% The gcsal.h5 and gcsal.h5.info.mat files are available for download from the
-% website and should be placed in the h5_data directory.
+if (~exist('g','var') || ~isa(g,'GCSAL.GCSAL'))
+    % The gcsal.h5 and gcsal.h5.info.mat files are available for download from the
+    % website and should be placed in the h5_data directory.
 
-%%%%%%%%%%%%%% CHANGE THESE %%%%%%%%%%%%%%%%%%
-% Set this to wherever you put the gcsal.h5 file and gcsal.h5.info.mat
-% files downloaded from dropbox
-h5_dir = './h5_data/';
+    %%%%%%%%%%%%%% CHANGE THESE %%%%%%%%%%%%%%%%%%
+    % Set this to wherever you put the gcsal.h5 file and gcsal.h5.info.mat
+    % files downloaded from dropbox
+    h5_dir = './h5_data/';
 
-% Directory to code. The folder +GCSAL which contains this file should be
-% in this directory
-codebase_dir = './';
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Directory to code. The folder +GCSAL which contains this file should be
+    % in this directory
+    codebase_dir = './';
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Full path to .mat file with h5 info
-h5_file = fullfile(h5_dir, 'gcsal.h5');
-h5_mat_file = [h5_file '.info.mat'];
+    % Full path to .mat file with h5 info
+    h5_file = fullfile(h5_dir, 'gcsal.h5');
+    h5_mat_file = [h5_file '.info.mat'];
 
-% Set up Matlab path
-addpath(genpath(codebase_dir))
+    % Set up Matlab path
+    addpath(genpath(codebase_dir))
 
-%% Load GCSAL object from .mat file
+    %% Load GCSAL object from .mat file
 
-% This requires about 6 gb of RAM just to hold all of the header
-% information in memory
+    % This requires about 6 gb of RAM just to hold all of the header
+    % information in memory
 
-% Normally you should load the GCSAL object from the .mat file but if it
-% doesn't exist on your path you can use the .h5 file. After using the .h5
-% file a .mat file will be created automatically for subsequent use
-if ~exist(h5_mat_file, 'file')
-    g = GCSAL.GCSAL(h5_file);
-else
-    g = GCSAL.GCSAL(h5_mat_file);
-    g.h5_fname = h5_file;
+    % Normally you should load the GCSAL object from the .mat file but if it
+    % doesn't exist on your path you can use the .h5 file. After using the .h5
+    % file a .mat file will be created automatically for subsequent use
+    if ~exist(h5_mat_file, 'file')
+        g = GCSAL.GCSAL(h5_file);
+    else
+        g = GCSAL.GCSAL(h5_mat_file);
+        g.h5_fname = h5_file;
+    end
 end
 
 % Introduction: Printout the list of variables that are in the header data
@@ -77,7 +81,6 @@ country_names = {'Mexico', 'Brazil','Algeria', 'Burkina Faso', 'Ghana', 'Niger',
 
 stations2 = g.station_search('Countries', country_names);
 
-
 % Find stations in countries AND within 25 degrees of equator
 stations3 = g.station_search('Countries', country_names, ...
     'LatLong', [-25 25 -180 180]);
@@ -100,6 +103,8 @@ stations6 = g.station_search('Countries', {'Brazil', 'India'}, ...
     'LatLong', [-25 25 -180 180], ...
     'IDRegex', '5$');
 
+% Find stations within +/-2.5 deg latitude about Guatemala
+stations7 =  g.station_search('Lat', [14.583323, -90.527309], 'Range', 2.5);
 
 %% Data query
 

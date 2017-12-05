@@ -118,7 +118,7 @@ if length(lat) ~= 2 || length(long) ~= 2
     error('lat and long must be length 2')
 end
 
-% Ensure lat/long are betwee -180 and 180
+% Ensure lat/long are between -180 and 180
 lat =  dmodpi(lat);
 long = dmodpi(long);
 
@@ -193,7 +193,7 @@ lat_pts =  [latrange(1)  latrange(1)  latrange(2)  latrange(2)  latrange(1)];
 long_box = [];
 lat_box = [];
 
-% Loop throught he 4 edges of the square
+% Loop throught the 4 edges of the square
 for i = 1:4
 
 
