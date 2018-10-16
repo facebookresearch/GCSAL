@@ -1,5 +1,7 @@
 function [stations, arclen] = find_nearest(all_stations, lat, lon, n)
-% arclen] = find_nearest(all_stations, lat, lon, n)
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
+% [stations, arclen] = find_nearest(all_stations, lat, lon, n)
 %
 %   Returns an array of station structs of the nearest n stations
 %   relative to the specified lat/lon
@@ -17,12 +19,6 @@ function [stations, arclen] = find_nearest(all_stations, lat, lon, n)
 %                  lat/long search box
 %         arclen - vector of distances in meters
 
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
     lats = [all_stations(:).lat];
     lons = [all_stations(:).lon];

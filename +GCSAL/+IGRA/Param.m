@@ -1,4 +1,6 @@
 classdef Param
+    % Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+    %
     % Param(param_def, text_mat)
     %    Reads the IGRA formatted text in text_mat according to the
     %    format definition in param_def. IGRA text data uses fixed column
@@ -29,13 +31,6 @@ classdef Param
     %   idx  - indexing vector for data
     %   len  - length of uncompressed data
     %   def  - format definition struct
-
-    % Copyright (c) 2017-present, Facebook, Inc.
-    % All rights reserved.
-    %
-    % This source code is licensed under the BSD-style license found in the
-    % LICENSE file in the root directory of this source tree. An additional grant
-    % of patent rights can be found in the PATENTS file in the same directory.
 
 
     properties

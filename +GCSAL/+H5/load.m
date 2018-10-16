@@ -1,14 +1,9 @@
 function [ out ] = load( filename, info )
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % [ out ] = load( filename, info )
 %   Load and uncompress data in h5 file filename at dataset find in info.
 %   info is a specific Group found in the struct return by h5info()
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 % List of expected flds

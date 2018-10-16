@@ -1,4 +1,6 @@
 function mat2h5_dir(in_dir, h5_filename, append, filespec)
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % [] = mat2h5_dir(in_dir, h5_filename, append, filespec)
 %   Loads data in .mat files that match filespec and writes the data to
 %   h5_filename. The flag append controls whether data will be appended to
@@ -15,13 +17,6 @@ function mat2h5_dir(in_dir, h5_filename, append, filespec)
 %                   Default: true
 %        filespec - filespec used to identify .mat files
 %                   Default: '*-data.txt.mat'
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 % Set default values

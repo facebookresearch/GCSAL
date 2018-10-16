@@ -1,4 +1,6 @@
 function datafile2mat_dir(in_dir, out_dir, overwrite_mat, filespec)
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % [] = datafile2mat_dir(in_dir, out_dir, use_mat_if_found, filespec)
 %   Parses IGRA data files that match filespec and saves a .mat file
 %   containing the data in out_dir. The flag overwrite_mat controls whether
@@ -16,13 +18,6 @@ function datafile2mat_dir(in_dir, out_dir, overwrite_mat, filespec)
 %                   Default: true
 %        filespec - filespec used to identify IGRA data files
 %                   Default: '*-data.txt'
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 % Set default values

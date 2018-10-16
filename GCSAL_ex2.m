@@ -1,3 +1,9 @@
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
+% This example file goes through the most commonly used function of the
+% Global Climate Statistical Analysis Library class.
+
+
 %% Step 1 is to download the source .h5 file and set up your paths correctly
 
 %clear;

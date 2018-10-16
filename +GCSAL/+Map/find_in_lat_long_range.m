@@ -1,5 +1,7 @@
 function [stations, latbox, longbox] = ...
     find_in_lat_long_range(all_stations, latrange, longrange)
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % [stations, longbox, latbox] = ...
 %     find_in_lat_long_range(all_stations, latrange, longrange)
 %
@@ -32,13 +34,6 @@ function [stations, latbox, longbox] = ...
 %                  handles wraparound nicely for a map plot by inserting
 %                  NaNs for a discontinuous plot line.
 %        longbox - see latbox
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 % Handle angle wraparound

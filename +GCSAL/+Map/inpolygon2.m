@@ -1,4 +1,6 @@
 function [in] = inpolygon2(x,y,xv,yv)
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % Function to determine if points (x,y) is inside or outside a polygon.
 %
 % INPUTS
@@ -15,12 +17,6 @@ function [in] = inpolygon2(x,y,xv,yv)
 %       in = inpolygon(x,y,xv,yv);
 %       plot(xv,yv,x(in),y(in),'.r',x(~in),y(~in),'.b')
 
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 if ((xv(1) ~= xv(end)) || (yv(1) ~= yv(end)))
         xv = [xv ; xv(1)];

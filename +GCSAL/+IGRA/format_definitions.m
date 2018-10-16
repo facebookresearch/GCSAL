@@ -1,4 +1,6 @@
 function defs = format_definitions( )
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % [ defs ] = igra_format_definitions( )
 % Returns a struct containing the format definitions for igra data and
 % stations list text files
@@ -7,13 +9,6 @@ function defs = format_definitions( )
 % format.
 % Ref: https://www1.ncdc.noaa.gov/pub/data/igra/data/igra2-data-format.txt
 % Ref: https://www1.ncdc.noaa.gov/pub/data/igra/igra2-list-format.txt
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 % Load up definitions in cell matrix format

@@ -1,4 +1,6 @@
 function patch_handles = multipatch( x, y, varargin )
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % patch_handles = multipatch( x, y, varargin )
 %   Like built in matlab function patch but allows for NaN values in x and
 %   y to separate multiple patches. varargin allows for any additional
@@ -7,12 +9,6 @@ function patch_handles = multipatch( x, y, varargin )
 %   returns patch_handles, a vector of handles returned by each call to
 %   patch()
 
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 if ~isequal(size(x), size(y))
     error('x and y must be same size')

@@ -1,4 +1,6 @@
 function [ out ] = datafile2mat( filename, overwrite_mat, output_directory )
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % [ out ] = datafile2mat( filename, overwrite_mat [opt], output_directory [opt] )
 %  Parses IGRA data in filename and saves the data to a .mat file in
 %  output_directory. Additionally returns the data in out.
@@ -14,13 +16,6 @@ function [ out ] = datafile2mat( filename, overwrite_mat, output_directory )
 %                     Default: true
 %  output_directory - directory to save .mat file
 %                     Default: current working directory
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 % Set default values

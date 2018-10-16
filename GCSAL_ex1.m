@@ -1,14 +1,9 @@
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % This example file goes through the most commonly used function of the
 % Global Climate Statistical Analysis Library class. The examples show you
 % can do analysis of the probability distributions of different atmospheric
 % data based on location and time of day or time of year.
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 %% Step 1 is to download the source .h5 file and set up your paths correctly

@@ -1,4 +1,6 @@
 function countries = map_stations_by_country(all_stations, countries_data)
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % countries_with_station = map_stations_by_country(all_stations, countries_data)
 %   For each country in countries_data, finds stations in all_stations that
 %   are within the borders of the country based on the latitude and
@@ -26,13 +28,6 @@ function countries = map_stations_by_country(all_stations, countries_data)
 %                of the country in degrees. stations is a string matrix
 %                with each row an id for a station contained in that
 %                country.
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 % If countries_data not given, try to load it form default .mat file

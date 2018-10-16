@@ -1,13 +1,9 @@
 classdef GCSAL < handle
+    % Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+    %
     % GCSAL - Global Climate Statical Analysis Library
     %   Inherits handle class making objects of this class pointers
 
-    % Copyright (c) 2017-present, Facebook, Inc.
-    % All rights reserved.
-    %
-    % This source code is licensed under the BSD-style license found in the
-    % LICENSE file in the root directory of this source tree. An additional grant
-    % of patent rights can be found in the PATENTS file in the same directory.
 
     properties
         h5_fname % path to .h5 source file for loading data

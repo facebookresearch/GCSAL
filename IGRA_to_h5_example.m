@@ -1,3 +1,5 @@
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % This example script takes the GCSAL process from downloading the source
 % data from NOAA website through to creating a GCSAL Matlab object.
 %
@@ -8,12 +10,6 @@
 %   1. Want to update the data with the latest measurements
 %   2. Want to make a change to the way data is stored in the .h5 file
 
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 %% Set up paths and constants - Change the paths below as necessary
 clear all; close all; clc;

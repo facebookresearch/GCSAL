@@ -1,4 +1,6 @@
 function out = fullpath(filepart1, varargin)
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % F = fullpath(filepart1, filepart2, ..., filepartN) builds a full
 %     path specification F from the folders specified using / for the
 %     fileseparator regardless of operating system. Input
@@ -9,13 +11,6 @@ function out = fullpath(filepart1, varargin)
 %
 %     except that care is taken to handle the cases when the folders begin
 %     or end with a file separator.
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 % Error check for number of inputs

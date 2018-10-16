@@ -1,13 +1,8 @@
 function [ ] = mat2h5( mat_filename, h5_filename, station_id )
+% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+%
 % Load mat_filename and write the contents in h5 format to h5_filename with
 % station_id as h5 path root
-
-% Copyright (c) 2017-present, Facebook, Inc.
-% All rights reserved.
-%
-% This source code is licensed under the BSD-style license found in the
-% LICENSE file in the root directory of this source tree. An additional grant
-% of patent rights can be found in the PATENTS file in the same directory.
 
 
 % load mat file
