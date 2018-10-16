@@ -1,5 +1,6 @@
 Oct 19, 2018
 - Added CODE_OF_CONDUCT.md and CHANGELOG.md files
+- Updated copyright information to all source code files
 
 Dec 5, 2017
 - Added functionality to search by latitude range and for nearest N stations.
