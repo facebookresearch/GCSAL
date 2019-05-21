@@ -1,4 +1,7 @@
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % This example file goes through the most commonly used function of the
 % Global Climate Statistical Analysis Library class.
@@ -54,7 +57,7 @@ nsamples = 20;
 stations = g.station_search('Nearest', [loc_lat loc_lon], 'Number', nsamples);
 
 % Of the 20 nearest stations, grab the least number such that
-% at each altitude between 18 and 25 km, there are at least 
+% at each altitude between 18 and 25 km, there are at least
 % 300 wind samples per month
 
 tooFew = true;
@@ -113,10 +116,10 @@ title('Sampled Yearly Wind Direction PDF At 22.5 km');
 
 % y1max = max(stats1.y);
 % y1min = min(stats1.y);
-% 
+%
 % y2max = max(stats2.y);
 % y2min = min(stats2.y);
-% 
+%
 % n = 1000;
 % wind = zeros(n,1);
 % dir = zeros(n,1);
@@ -127,7 +130,7 @@ title('Sampled Yearly Wind Direction PDF At 22.5 km');
 %     probs = interp1(stats1.y,stats1.pdf(:,23),y1);   % Probability of each wind
 %     [~,idx] = sort(probs);  % Find max probability
 %     wind(j) = y1(idx(end));
-%     
+%
 %     p = rand(nsamples,1);      % sample from uniform dist
 %     y2 = p * (y2max - y2min) + y2min;   % Get wind values from sample
 %     probs = interp1(stats2.y,stats2.pdf(:,23),y2);   % Probability of each wind

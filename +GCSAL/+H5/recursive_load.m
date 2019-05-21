@@ -1,5 +1,8 @@
 function [  ] = recursive_load( h5_file, info )
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % Recursively load all data in h5_file that is a child of the Groups in
 % info. This is for test purpose only

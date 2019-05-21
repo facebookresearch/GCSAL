@@ -1,3 +1,6 @@
+May 25, 2019
+- Updated license from BSD to MIT
+
 Oct 19, 2018
 - Added CODE_OF_CONDUCT.md and CHANGELOG.md files
 - Updated copyright information to all source code files

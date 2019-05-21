@@ -1,5 +1,8 @@
 function [ ] = mat2h5( mat_filename, h5_filename, station_id )
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % Load mat_filename and write the contents in h5 format to h5_filename with
 % station_id as h5 path root

@@ -1,5 +1,8 @@
 function datafile2mat_dir(in_dir, out_dir, overwrite_mat, filespec)
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % [] = datafile2mat_dir(in_dir, out_dir, use_mat_if_found, filespec)
 %   Parses IGRA data files that match filespec and saves a .mat file

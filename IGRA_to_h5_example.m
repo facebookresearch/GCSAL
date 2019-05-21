@@ -1,4 +1,7 @@
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % This example script takes the GCSAL process from downloading the source
 % data from NOAA website through to creating a GCSAL Matlab object.
