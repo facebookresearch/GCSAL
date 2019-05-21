@@ -1,5 +1,8 @@
 classdef Param
-    % Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+    % Copyright (c) Facebook, Inc. and its affiliates.
+    %
+    % This source code is licensed under the MIT license found in the
+    % LICENSE file in the root directory of this source tree.
     %
     % Param(param_def, text_mat)
     %    Reads the IGRA formatted text in text_mat according to the

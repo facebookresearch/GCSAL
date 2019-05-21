@@ -1,5 +1,8 @@
 function out = fullpath(filepart1, varargin)
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % F = fullpath(filepart1, filepart2, ..., filepartN) builds a full
 %     path specification F from the folders specified using / for the

@@ -1,5 +1,8 @@
 function mat2h5_dir(in_dir, h5_filename, append, filespec)
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % [] = mat2h5_dir(in_dir, h5_filename, append, filespec)
 %   Loads data in .mat files that match filespec and writes the data to

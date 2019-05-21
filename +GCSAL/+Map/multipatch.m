@@ -1,5 +1,8 @@
 function patch_handles = multipatch( x, y, varargin )
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % patch_handles = multipatch( x, y, varargin )
 %   Like built in matlab function patch but allows for NaN values in x and

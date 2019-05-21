@@ -1,5 +1,8 @@
 function countries = map_stations_by_country(all_stations, countries_data)
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % countries_with_station = map_stations_by_country(all_stations, countries_data)
 %   For each country in countries_data, finds stations in all_stations that

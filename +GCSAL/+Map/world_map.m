@@ -1,5 +1,8 @@
 function world_map(countries)
-% Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+% Copyright (c) Facebook, Inc. and its affiliates.
+%
+% This source code is licensed under the MIT license found in the
+% LICENSE file in the root directory of this source tree.
 %
 % world_map(countries)
 %   Creates a cartesion map of the world by creating patches for each

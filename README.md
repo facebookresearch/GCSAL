@@ -146,7 +146,7 @@ depression, and relative humidity.
 * Facebook page:
 
 ## License
-GCSAL is BSD-licensed. We also provide an additional patent grant.
+GCSAL is MIT-licensed.
 
 NOAA Integrated Global Radiosonde Archive (IGRA) data is licensed under the
 World Meteorological Organization (WMO) Resolution 40 NOAA Policy NCEI data and
