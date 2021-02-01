@@ -7,7 +7,7 @@ text data from the NOAA website
 
 ## Examples
 The following example files are provided in the root directory.  
-* **GCSAL_ex1.m, GCSAL_ex2.m, etc. ** go through the most commonly used functions
+* **GCSAL_ex1.m**, **GCSAL_ex2.m**, etc. go through the most commonly used functions
 of the Global Climate Statistical Analysis Library class. These examples include
 analysis of the probability distributions of different atmospheric data based on
 location and time of day or time of year.
@@ -28,8 +28,8 @@ No building required.
 ## Installing GCSAL
 No installation is required.  The user needs to download two data files,
 *gcsal.h5* and *gcsal.h5.info.mat*, and put them in the *h5_data* directory.
-- gcsal.h5: https://www.dropbox.com/s/a6x9r6al9m29dg0/gcsal.h5?dl=0
-- gcsal.h5.info.mat: https://www.dropbox.com/s/lpjgnanizan6vu8/gcsal.h5.info.mat?dl=0
+- gcsal.h5: https://www.dropbox.com/s/2m3glr0drhds33l/gcsal.h5?dl=0
+- gcsal.h5.info.mat: https://www.dropbox.com/s/ks9fs3xombb9xqs/gcsal.h5.info.mat?dl=0
 
 ## How GCSAL works
 GCSAL consists of 2 main groups of functions.  The first group is for processing
@@ -142,8 +142,6 @@ depression, and relative humidity.
 
 ## Join the GCSAL community
 * POC: Greg Katz (<gregbkatz@gmail.com>) and David Liu (<zliu@fb.com>)
-* Website:
-* Facebook page:
 
 ## License
 GCSAL is MIT-licensed.
